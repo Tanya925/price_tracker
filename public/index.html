@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青蔥粉蔥價格追蹤網站-以台中市場為例</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+    <h1>青蔥粉蔥價格追蹤網站-以台中市場為例</h1>
+
+    <div class="container">
+        <!-- 1. 輸入介面 -->
+        <section>
+            <h2>新增價格紀錄</h2>
+            <div class="input-group">
+                <input type="date" id="addDate">
+                <input type="number" id="addPrice" placeholder="商品價格 (元)">
+                <button onclick="addPrice()">新增紀錄</button>
+            </div>
+        </section>
+
+        <!-- 5. 查詢特定日期 -->
+        <section>
+            <h2>查詢特定日期價格</h2>
+            <div class="input-group">
+                <input type="date" id="searchDate">
+                <button onclick="searchPrice()">搜尋</button>
+            </div>
+            <div id="searchResult" class="search-result"></div>
+        </section>
+
+        <!-- 6. 統計資訊 -->
+        <section>
+            <h2>歷年價格統計</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>最低價格</div>
+                    <div id="minPrice" class="stat-value">--</div>
+                </div>
+                <div class="stat-card">
+                    <div>平均價格</div>
+                    <div id="avgPrice" class="stat-value">--</div>
+                </div>
+                <div class="stat-card">
+                    <div>最高價格</div>
+                    <div id="maxPrice" class="stat-value">--</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 表格呈現 -->
+        <section>
+            <h2>物價歷史紀錄表</h2>
+            <table id="priceTable">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>價格 (元)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 資料將由 JS 動態插入 -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="/javascripts/main.js"></script>
+</body>
+</html>
