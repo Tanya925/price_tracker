@@ -6,7 +6,6 @@ on:
       - main
   workflow_dispatch:
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,12 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
       - name: Upload source code for deployment
         uses: actions/upload-artifact@v4
         with:
@@ -30,6 +23,7 @@ jobs:
             .
             !node_modules
             !node_modules/**
+            !node_modules.tar.gz
             !.git
             !.git/**
 
