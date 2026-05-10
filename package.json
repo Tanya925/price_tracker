@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build": "npm install --build-from-source sqlite3"
   },
   "engines": {
     "node": ">=20.0.0"
