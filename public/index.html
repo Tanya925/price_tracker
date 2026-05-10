@@ -2,71 +2,71 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- 讓網頁在手機、平板、電腦上都能正常縮放 -->
     <title>青蔥粉蔥價格追蹤網站-以台中市場為例</title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">  <!-- 連接(匯入) CSS 樣式檔 -->
 </head>
-<body>
+<body>  <!-- 網頁真正會顯示在畫面上的內容開始 -->
 
     <h1>青蔥粉蔥價格追蹤網站-以台中市場為例</h1>
 
-    <div class="container">
-        <!-- 1. 輸入介面 -->
-        <section>
+    <div class="container">  <!--建立一個主要容器-->
+        <!-- 1. 新增價格紀錄區塊 -->
+        <section>  <!-- section: 通常用來表示一個功能區塊-->
             <h2>新增價格紀錄</h2>
             <div class="input-group">
                 <input type="date" id="addDate">
                 <input type="number" id="addPrice" placeholder="商品價格 (元)">
-                <button onclick="addPrice()">新增紀錄</button>
+                <button onclick="addPrice()">新增紀錄</button>  <!-- 新增按鈕。當使用者點擊按鈕時，會執行 JavaScript 裡面的：addPrice()，也就是新增價格資料的函式-->
             </div>
         </section>
 
-        <!-- 5. 查詢特定日期 -->
+        <!-- 2. 查詢特定日期價格區塊 -->
         <section>
             <h2>查詢特定日期價格</h2>
             <div class="input-group">
                 <input type="date" id="searchDate">
                 <button onclick="searchPrice()">搜尋</button>
             </div>
-            <div id="searchResult" class="search-result"></div>
+            <div id="searchResult" class="search-result"></div>  <!--查詢結果顯示區-->
         </section>
 
-        <!-- 6. 統計資訊 -->
+        <!-- 3. 歷年價格統計區塊 -->
         <section>
             <h2>歷年價格統計</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
+            <div class="stats-grid">  <!--建立統計卡片的容器(class="stats-grid" 通常表示 CSS 會用 grid 排版，讓三張卡片並排)-->
+                <div class="stat-card">  <!--建立第一張統計卡片-->
                     <div>最低價格</div>
-                    <div id="minPrice" class="stat-value">--</div>
+                    <div id="minPrice" class="stat-value">--</div>  <!--最低價格數值顯示區(一開始顯示：--，之後 JavaScript 會從後端 /api/prices/stats 拿資料，然後把最低價格放到這裡)-->
                 </div>
-                <div class="stat-card">
+                <div class="stat-card">  <!--建立第二張統計卡片-->
                     <div>平均價格</div>
                     <div id="avgPrice" class="stat-value">--</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card">  <!--建立第三張統計卡片-->
                     <div>最高價格</div>
                     <div id="maxPrice" class="stat-value">--</div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. 表格呈現 -->
+        <!-- 4. 物價歷史紀錄表區塊 -->
         <section>
             <h2>物價歷史紀錄表</h2>
-            <table id="priceTable">
-                <thead>
-                    <tr>
-                        <th>日期</th>
+            <table id="priceTable">  <!--建立表格(JS 之後可以用這個 id 找到這個表格，然後把資料放進去)-->
+                <thead>  <!--表格表頭開始(表頭通常放欄位名稱)-->
+                    <tr>  <!--建立一列(tr 是 table row，代表表格的一行)-->
+                        <th>日期</th>  <!--建立表頭欄位：日期(th 是 table header，通常會變粗、置中)-->
                         <th>價格 (元)</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>  <!-- 表格內容區-->
                     <!-- 資料將由 JS 動態插入 -->
                 </tbody>
             </table>
         </section>
     </div>
 
-    <script src="/javascripts/main.js"></script>
+    <script src="/javascripts/main.js"></script>  <!-- 連接(匯入) JavaScript 程式碼檔(main.js 裡面會寫一些程式碼，讓網頁有互動功能，例如：點擊新增按鈕後，會把資料送到後端，然後更新表格和統計數字)-->
 </body>
 </html>
