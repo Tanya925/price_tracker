@@ -60,6 +60,3 @@ jobs:
           app-name: 'price-tracker-d1349612'
           slot-name: 'Production'
           package: .
-          # Enable remote build to ensure native modules like sqlite3 are compiled on the target environment
-          # to avoid GLIBC version mismatch (e.g., GLIBC_2.38 not found).
-          app-settings-json: '[{"name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "true", "slotSetting": false}]'
