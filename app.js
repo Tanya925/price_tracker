@@ -1,44 +1,16 @@
 import express from 'express';  // 匯入 Express 框架
-import fs from 'fs';  // 匯入 Node.js 內建的檔案系統模組
 import path from 'path';  // 匯入路徑處理工具
 import { fileURLToPath } from 'url';  // 匯入 fileURLToPat（因為現在使用的是 ES Module）
 import cookieParser from 'cookie-parser';  // 匯入 Cookie 解析中介軟體（可以讓後端比較方便讀取瀏覽器送來的 Cookie）
 import logger from 'morgan';  // 匯入 morgan（morgan 是記錄 HTTP 請求的中介軟體。例如你打開網站時，終端機會看到：GET /api/prices 200方便除錯）
-import sqlite3 from 'sqlite3';  // 匯入 SQLite3 套件（這樣 Express 後端就可以連接 SQLite 資料庫）
+
+import db from './db.js';  // 匯入 db.js 建立好的 SQLite 資料庫連線
 
 import indexRouter from './routes/index.js';  // 匯入首頁路由
 import usersRouter from './routes/users.js';  // 匯入使用者路由
 
 const __filename = fileURLToPath(import.meta.url);  // 取得目前這個檔案的完整路徑
 const __dirname = path.dirname(__filename);  // 取得目前檔案所在的資料夾路徑
-
-// 在 Azure 用 /home/data，本機用當前專案下的 db 資料夾
-const isAzure = !!process.env.WEBSITE_SITE_NAME;  // 判斷程式是不是跑在 Azure App Service 上，存成布林值 (isAzure = true 代表在 Azure 上，isAzure = false 代表在本機)
-const dataDir = isAzure ? '/home/data/db' : path.join(__dirname, 'db');  // 設定資料庫資料夾位置
-
-if (!fs.existsSync(dataDir)) {  // 檢查 dataDir 這個資料夾是否存在（如果資料夾不存在，就進入 {} 裡面）
-  fs.mkdirSync(dataDir, { recursive: true });  // 如果資料夾不存在，就建立這個資料夾（recursive: true 的意思是：如果上層資料夾也不存在，就一起建立）
-}
-
-// 設定 SQLite 資料庫路徑
-// 如果在 Azure 會長這樣：/home/data/db/sqlite.db；如果在本機會長：你的專案/db/sqlite.db
-const dbPath = path.join(dataDir, 'sqlite.db');  
-
-// 建立 SQLite 資料庫連線
-const db = new sqlite3.Database(dbPath, (err) => {  
-  if (err) {
-    console.error('app.js: 無法開啟資料庫:', err.message);
-  } else {
-    console.log('app.js: 成功連接至 SQLite 資料庫:', dbPath);
-    
-    // 執行 SQL 指令，建立資料表（如果 scallion_prices 這張表不存在，就建立它；如果已經存在，就不要重複建立）
-    db.run(`CREATE TABLE IF NOT EXISTS scallion_prices (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT NOT NULL,
-        price REAL NOT NULL
-    )`);
-  }
-});
 
 var app = express();  // 建立 Express 應用程式！！
 
