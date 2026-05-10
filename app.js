@@ -4,10 +4,37 @@ import path from 'path';  // 匯入路徑處理工具
 import { fileURLToPath } from 'url';  // 匯入 fileURLToPat（因為現在使用的是 ES Module）
 import cookieParser from 'cookie-parser';  // 匯入 Cookie 解析中介軟體
 import logger from 'morgan';  // 匯入 morgan
-import db from './db.js';  // 匯入連線好的資料庫物件 (由 db.js 管理路徑)
+import sqlite3 from 'sqlite3';  // 匯入 SQLite3 套件
+import { fileURLToPath } from 'url';  // 匯入 fileURLToPath
 
 import indexRouter from './routes/index.js';  // 匯入首頁路由
 import usersRouter from './routes/users.js';  // 匯入使用者路由
+
+const __filename = fileURLToPath(import.meta.url);  // 取得目前這個檔案的完整路徑
+const __dirname = path.dirname(__filename);  // 取得目前檔案所在的資料夾路徑
+
+// 設定資料庫路徑（使用相對路徑定位）
+const dbPath = path.join(__dirname, 'db', 'sqlite.db');
+
+// 確保 db 目錄存在
+const dataDir = path.join(__dirname, 'db');
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+// 建立 SQLite 資料庫連線
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('app.js: 無法開啟資料庫:', err.message);
+  } else {
+    console.log('app.js: 成功連接至 SQLite 資料庫:', dbPath);
+    db.run(`CREATE TABLE IF NOT EXISTS scallion_prices (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT NOT NULL,
+        price REAL NOT NULL
+    )`);
+  }
+});
 
 var app = express();  // 建立 Express 應用程式！！
 
