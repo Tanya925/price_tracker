@@ -80,6 +80,14 @@ try:
             trade_date = row["TradeDate"]  # 從這筆資料中取出交易日期並存進變數
             avg_price = row["AveragePrice"]  # 從這筆資料中取出平均價格並存進變數
             
+            # 如果日期是民國年格式，例如 115/03/08，就轉成西元格式 2026-03-08（這樣格式才會跟在網站中手動新增日期的格式一樣）
+            parts = trade_date.split("/")
+            if len(parts) == 3:
+                year = int(parts[0]) + 1911
+                month = parts[1].zfill(2)
+                day = parts[2].zfill(2)
+                trade_date = f"{year}-{month}-{day}"
+            
             # 插入資料前檢查資料庫裡面是否已經有相同資料
             # 「去 scallion_prices 這張表找看看，有沒有日期等於 trade_date，而且價格等於 avg_price 的資料。」這裡的 ? 是參數佔位符。真正的值放在後面：(trade_date, avg_price)
             cursor.execute("SELECT 1 FROM scallion_prices WHERE date = ? AND price = ?", (trade_date, avg_price))
